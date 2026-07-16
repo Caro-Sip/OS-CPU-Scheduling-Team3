@@ -1,7 +1,9 @@
 package team3.sim;
 
 import team3.interfaces.Scheduler;
+import team3.objs.GanttElement;
 import team3.objs.Process;
+import team3.objs.SimulationResult;
 
 import java.util.ArrayList;
 import java.util.List;

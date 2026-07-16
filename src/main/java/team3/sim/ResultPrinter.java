@@ -1,6 +1,8 @@
 package team3.sim;
 
+import team3.objs.GanttElement;
 import team3.objs.Process;
+import team3.objs.SimulationResult;
 
 import java.util.List;
 import java.util.Map;
