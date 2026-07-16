@@ -23,7 +23,7 @@ public class FCFS implements Scheduler {
 
     @Override
     public void recordTick(Process p) {
-        // unsupported, fcfs is non-preemptive
+
     }
 
     @Override
