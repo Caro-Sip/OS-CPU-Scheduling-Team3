@@ -1,4 +1,4 @@
-package team3.sim;
+package team3.objs;
 
 /**
  * GanttElement represents a block of continuous execution of a process on the CPU.
