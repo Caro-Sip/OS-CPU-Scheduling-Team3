@@ -22,20 +22,21 @@ public class ResultPrinter {
             return;
         }
 
-        System.out.println("\n==============================================================================================");
-        System.out.println("                                   SIMULATION RUN RESULTS                                     ");
-        System.out.println("==============================================================================================");
-        System.out.printf("%-5s | %-12s | %-10s | %-10s | %-11s | %-12s | %-15s\n", 
-            "PID", "Arrival Time", "Burst Time", "Start Time", "Finish Time", "Waiting Time", "Turnaround Time");
-        System.out.println("----------------------------------------------------------------------------------------------");
+        System.out.println("\n================================================================================-----------------------------");
+        System.out.println("                                   SIMULATION RUN RESULTS                                                    ");
+        System.out.println("================================================================================-----------------------------");
+        System.out.printf("%-5s | %-12s | %-10s | %-10s | %-11s | %-12s | %-15s | %-13s\n", 
+            "PID", "Arrival Time", "Burst Time", "Start Time", "Finish Time", "Waiting Time", "Turnaround Time", "Response Time");
+        System.out.println("-------------------------------------------------------------------------------------------------------------");
         for (Process p : result.completedProcesses) {
-            System.out.printf("%-5d | %-12d | %-10d | %-10d | %-11d | %-12d | %-15d\n",
-                p.pid, p.arrivalTime, p.burstTime, p.startTime, p.finishTime, p.waitingTime, p.turnaroundTime);
+            System.out.printf("%-5d | %-12d | %-10d | %-10d | %-11d | %-12d | %-15d | %-13d\n",
+                p.pid, p.arrivalTime, p.burstTime, p.startTime, p.finishTime, p.waitingTime, p.turnaroundTime, p.responseTime);
         }
-        System.out.println("----------------------------------------------------------------------------------------------");
+        System.out.println("-------------------------------------------------------------------------------------------------------------");
         System.out.printf("Average Waiting Time: %.2f\n", result.averageWaitingTime);
         System.out.printf("Average Turnaround Time: %.2f\n", result.averageTurnaroundTime);
-        System.out.println("==============================================================================================");
+        System.out.printf("Average Response Time: %.2f\n", result.averageResponseTime);
+        System.out.println("================================================================================-----------------------------");
 
         printGanttChart(result.timeline);
     }
@@ -50,16 +51,16 @@ public class ResultPrinter {
             return;
         }
 
-        System.out.println("\n=============================================================");
-        System.out.println("                 ALGORITHM COMPARISON SUMMARY                ");
-        System.out.println("=============================================================");
-        System.out.printf("%-20s | %-20s | %-20s\n", "Algorithm", "Avg Waiting Time", "Avg Turnaround Time");
-        System.out.println("-------------------------------------------------------------");
+        System.out.println("\n===============================================================================================");
+        System.out.println("                                 ALGORITHM COMPARISON SUMMARY                                  ");
+        System.out.println("===============================================================================================");
+        System.out.printf("%-20s | %-20s | %-20s | %-20s\n", "Algorithm", "Avg Waiting Time", "Avg Turnaround Time", "Avg Response Time");
+        System.out.println("-----------------------------------------------------------------------------------------------");
         for (Map.Entry<String, SimulationResult> entry : results.entrySet()) {
             SimulationResult res = entry.getValue();
-            System.out.printf("%-20s | %-20.2f | %-20.2f\n", entry.getKey(), res.averageWaitingTime, res.averageTurnaroundTime);
+            System.out.printf("%-20s | %-20.2f | %-20.2f | %-20.2f\n", entry.getKey(), res.averageWaitingTime, res.averageTurnaroundTime, res.averageResponseTime);
         }
-        System.out.println("=============================================================");
+        System.out.println("===============================================================================================");
     }
 
     /**

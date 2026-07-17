@@ -81,17 +81,21 @@ public class CPUSimulator {
             time++;
         }
 
-        // Calculate Average Waiting Time (AWT) and Average Turnaround Time (ATT)
+        // Calculate Average Waiting Time (AWT), Average Turnaround Time (ATT), and Average Response Time (ART)
         double totalWaiting = 0;
         double totalTurnaround = 0;
+        double totalResponse = 0;
         for (Process p : completed) {
+            p.responseTime = p.startTime - p.arrivalTime;
             totalWaiting += p.waitingTime;
             totalTurnaround += p.turnaroundTime;
+            totalResponse += p.responseTime;
         }
         double avgWaiting = completed.isEmpty() ? 0 : totalWaiting / completed.size();
         double avgTurnaround = completed.isEmpty() ? 0 : totalTurnaround / completed.size();
+        double avgResponse = completed.isEmpty() ? 0 : totalResponse / completed.size();
 
-        return new SimulationResult(completed, timeline, avgWaiting, avgTurnaround);
+        return new SimulationResult(completed, timeline, avgWaiting, avgTurnaround, avgResponse);
     }
 
     /**

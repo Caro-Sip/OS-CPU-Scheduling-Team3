@@ -23,6 +23,8 @@ public class Process {
     public int waitingTime;
     @JsonIgnore
     public int turnaroundTime;
+    @JsonIgnore
+    public int responseTime;
 
     /**
      * Default constructor required for Jackson JSON deserialization.
@@ -46,5 +48,6 @@ public class Process {
         this.finishTime = -1;
         this.waitingTime = 0;
         this.turnaroundTime = 0;
+        this.responseTime = 0;
     }
 }

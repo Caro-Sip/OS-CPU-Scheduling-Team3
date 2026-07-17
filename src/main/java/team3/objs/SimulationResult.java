@@ -10,14 +10,16 @@ public class SimulationResult {
     public List<GanttElement> timeline;
     public double averageWaitingTime;
     public double averageTurnaroundTime;
+    public double averageResponseTime;
 
     public SimulationResult() {}
 
     public SimulationResult(List<Process> completedProcesses, List<GanttElement> timeline, 
-                            double averageWaitingTime, double averageTurnaroundTime) {
+                            double averageWaitingTime, double averageTurnaroundTime, double averageResponseTime) {
         this.completedProcesses = completedProcesses;
         this.timeline = timeline;
         this.averageWaitingTime = averageWaitingTime;
         this.averageTurnaroundTime = averageTurnaroundTime;
+        this.averageResponseTime = averageResponseTime;
     }
 }

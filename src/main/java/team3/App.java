@@ -70,6 +70,7 @@ public class App {
                     p.finishTime = -1;
                     p.waitingTime = 0;
                     p.turnaroundTime = 0;
+                    p.responseTime = 0;
                 }
             }
             return processes;
