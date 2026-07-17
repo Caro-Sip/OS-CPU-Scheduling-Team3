@@ -358,11 +358,24 @@ class Menu {
     }
 
     private void handleRunSRT(Scanner scanner) {
-        System.out.println("\nExecuting SRT (Shortest Remaining Time) Scheduling...");
-        // Stub for SRT
-        System.out.println("[SRT Scheduling logic not yet connected]");
-        System.out.println("\nPress [Enter] to return to the Main Menu...");
-        scanner.nextLine();
+        System.out.println("\nExecuting SRT (Shortest Remaining Time First) Scheduling...");
+        if (currentProcesses != null) {
+            try {
+                team3.interfaces.Scheduler srt = new team3.algorithms.SRTF();
+                CPUSimulator simulator = new CPUSimulator();
+                SimulationResult result = simulator.run(currentProcesses, srt);
+                ResultPrinter.print(result);
+                sessionResults.put("SRT", result);
+            } catch (Exception e) {
+                System.out.println("Error running SRT simulation: " + e.getMessage());
+            }
+            System.out.println("\nPress [Enter] to return to the Main Menu...");
+            scanner.nextLine();
+        } else {
+            System.out.println("No processes loaded yet. Please configure processes first.");
+            currentState = MenuStates.PROCESS_EDIT_MENU;
+            return;
+        }
         currentState = MenuStates.MAIN_MENU;
     }
 
@@ -489,8 +502,16 @@ class Menu {
                 System.out.println(" - FCFS: Failed (" + e.getMessage() + ")");
             }
 
-            // 2. SRT (Shortest Remaining Time) - stub
-            System.out.println(" - SRT: Not yet implemented");
+            // 2. SRT (Shortest Remaining Time)
+            try {
+                team3.interfaces.Scheduler srt = new team3.algorithms.SRTF();
+                CPUSimulator simulator = new CPUSimulator();
+                SimulationResult result = simulator.run(currentProcesses, srt);
+                sessionResults.put("SRT", result);
+                System.out.println(" - SRT: Completed successfully");
+            } catch (Exception e) {
+                System.out.println(" - SRT: Failed (" + e.getMessage() + ")");
+            }
 
             // 3. SRJ (Shortest Remaining Job)
             try {
