@@ -377,10 +377,24 @@ class Menu {
 
     private void handleRunRR(Scanner scanner) {
         System.out.println("\nExecuting RR (Round Robin) Scheduling...");
-        // Stub for RR
-        System.out.println("[RR Scheduling logic not yet connected]");
-        System.out.println("\nPress [Enter] to return to the Main Menu...");
-        scanner.nextLine();
+        if (currentProcesses != null) {
+            int quantum = getQuantumInput(scanner, 2);
+            try {
+                team3.interfaces.Scheduler rr = new team3.algorithms.RR(quantum);
+                CPUSimulator simulator = new CPUSimulator();
+                SimulationResult result = simulator.run(currentProcesses, rr);
+                ResultPrinter.print(result);
+                sessionResults.put("RR (q=" + quantum + ")", result);
+            } catch (Exception e) {
+                System.out.println("Error running RR simulation: " + e.getMessage());
+            }
+            System.out.println("\nPress [Enter] to return to the Main Menu...");
+            scanner.nextLine();
+        } else {
+            System.out.println("No processes loaded yet. Please configure processes first.");
+            currentState = MenuStates.PROCESS_EDIT_MENU;
+            return;
+        }
         currentState = MenuStates.MAIN_MENU;
     }
 
@@ -413,8 +427,17 @@ class Menu {
             // 3. SRJ (Shortest Remaining Job) - stub
             System.out.println(" - SRJ: Not yet implemented");
 
-            // 4. RR (Round Robin) - stub
-            System.out.println(" - RR: Not yet implemented");
+            // 4. RR (Round Robin)
+            try {
+                int quantum = getQuantumInput(scanner, 2);
+                team3.interfaces.Scheduler rr = new team3.algorithms.RR(quantum);
+                CPUSimulator simulator = new CPUSimulator();
+                SimulationResult result = simulator.run(currentProcesses, rr);
+                sessionResults.put("RR (q=" + quantum + ")", result);
+                System.out.println(" - RR: Completed successfully");
+            } catch (Exception e) {
+                System.out.println(" - RR: Failed (" + e.getMessage() + ")");
+            }
 
             // 5. MLFQ (Multi-Level Feedback Queue) - stub
             System.out.println(" - MLFQ: Not yet implemented");
@@ -431,6 +454,25 @@ class Menu {
             return;
         }
         currentState = MenuStates.MAIN_MENU;
+    }
+
+    private int getQuantumInput(Scanner scanner, int defaultVal) {
+        while (true) {
+            System.out.print("Enter Time Quantum for RR (default " + defaultVal + "): ");
+            String input = scanner.nextLine().trim();
+            if (input.isEmpty()) {
+                return defaultVal;
+            }
+            try {
+                int val = Integer.parseInt(input);
+                if (val > 0) {
+                    return val;
+                }
+                System.out.println("Time quantum must be greater than 0.");
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a positive integer.");
+            }
+        }
     }
 
     /**
