@@ -10,6 +10,7 @@ public class Process {
     public int pid;
     public int arrivalTime;
     public int burstTime;
+    @JsonIgnore
     public int priority; // -1 = none
 
     @JsonIgnore

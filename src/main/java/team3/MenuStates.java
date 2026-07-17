@@ -400,10 +400,65 @@ class Menu {
 
     private void handleRunMLFQ(Scanner scanner) {
         System.out.println("\nExecuting MLFQ (Multi-Level Feedback Queue) Scheduling...");
-        // Stub for MLFQ
-        System.out.println("[MLFQ Scheduling logic not yet connected]");
-        System.out.println("\nPress [Enter] to return to the Main Menu...");
-        scanner.nextLine();
+        if (currentProcesses != null) {
+            int numLevels = 3;
+            System.out.print("Enter number of levels (default 3): ");
+            String numLevelsInput = scanner.nextLine().trim();
+            if (!numLevelsInput.isEmpty()) {
+                try {
+                    numLevels = Integer.parseInt(numLevelsInput);
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. Using default 3 levels.");
+                }
+            }
+            if (numLevels <= 0) {
+                System.out.println("Number of levels must be > 0. Using default 3.");
+                numLevels = 3;
+            }
+
+            int[] quantums = new int[numLevels];
+            for (int i = 0; i < numLevels; i++) {
+                int defaultQ = (i == numLevels - 1) ? 0 : (int) Math.pow(2, i + 2); // 4, 8, etc. Last is FCFS (0)
+                System.out.print("Enter quantum for level " + i + " (default " + defaultQ + ", 0 for FCFS): ");
+                String qInput = scanner.nextLine().trim();
+                int q = defaultQ;
+                if (!qInput.isEmpty()) {
+                    try {
+                        q = Integer.parseInt(qInput);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input. Using default " + defaultQ);
+                    }
+                }
+                if (q < 0) {
+                    System.out.println("Quantum cannot be negative. Using default " + defaultQ);
+                    q = defaultQ;
+                }
+                quantums[i] = q;
+            }
+
+            try {
+                team3.interfaces.Scheduler mlfq = new team3.algorithms.MLFQ(quantums);
+                CPUSimulator simulator = new CPUSimulator();
+                SimulationResult result = simulator.run(currentProcesses, mlfq);
+                ResultPrinter.print(result);
+
+                StringBuilder sb = new StringBuilder("MLFQ (q=[");
+                for (int i = 0; i < quantums.length; i++) {
+                    sb.append(quantums[i]);
+                    if (i < quantums.length - 1) sb.append(",");
+                }
+                sb.append("])");
+                sessionResults.put(sb.toString(), result);
+            } catch (Exception e) {
+                System.out.println("Error running MLFQ simulation: " + e.getMessage());
+            }
+            System.out.println("\nPress [Enter] to return to the Main Menu...");
+            scanner.nextLine();
+        } else {
+            System.out.println("No processes loaded yet. Please configure processes first.");
+            currentState = MenuStates.PROCESS_EDIT_MENU;
+            return;
+        }
         currentState = MenuStates.MAIN_MENU;
     }
 
@@ -439,8 +494,17 @@ class Menu {
                 System.out.println(" - RR: Failed (" + e.getMessage() + ")");
             }
 
-            // 5. MLFQ (Multi-Level Feedback Queue) - stub
-            System.out.println(" - MLFQ: Not yet implemented");
+            // 5. MLFQ (Multi-Level Feedback Queue)
+            try {
+                int[] quantums = new int[]{4, 8, 0}; // default [4, 8, FCFS]
+                team3.interfaces.Scheduler mlfq = new team3.algorithms.MLFQ(quantums);
+                CPUSimulator simulator = new CPUSimulator();
+                SimulationResult result = simulator.run(currentProcesses, mlfq);
+                sessionResults.put("MLFQ (q=[4,8,0])", result);
+                System.out.println(" - MLFQ: Completed successfully");
+            } catch (Exception e) {
+                System.out.println(" - MLFQ: Failed (" + e.getMessage() + ")");
+            }
 
             // Print comparative results if we have at least one successful run
             if (!sessionResults.isEmpty()) {
@@ -520,18 +584,7 @@ class Menu {
                 }
             }
 
-            int priority = -1;
-            System.out.print("Priority (default -1): ");
-            String priorityInput = scanner.nextLine().trim();
-            if (!priorityInput.isEmpty()) {
-                try {
-                    priority = Integer.parseInt(priorityInput);
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid priority. Using default -1");
-                }
-            }
-
-            Process p = new Process(pid, arrivalTime, burstTime, priority);
+            Process p = new Process(pid, arrivalTime, burstTime, -1);
             customList.add(p);
         }
         return customList;

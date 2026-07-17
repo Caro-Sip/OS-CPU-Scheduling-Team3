@@ -25,12 +25,12 @@ public class ResultPrinter {
         System.out.println("\n==============================================================================================");
         System.out.println("                                   SIMULATION RUN RESULTS                                     ");
         System.out.println("==============================================================================================");
-        System.out.printf("%-5s | %-12s | %-10s | %-8s | %-10s | %-11s | %-12s | %-15s\n", 
-            "PID", "Arrival Time", "Burst Time", "Priority", "Start Time", "Finish Time", "Waiting Time", "Turnaround Time");
+        System.out.printf("%-5s | %-12s | %-10s | %-10s | %-11s | %-12s | %-15s\n", 
+            "PID", "Arrival Time", "Burst Time", "Start Time", "Finish Time", "Waiting Time", "Turnaround Time");
         System.out.println("----------------------------------------------------------------------------------------------");
         for (Process p : result.completedProcesses) {
-            System.out.printf("%-5d | %-12d | %-10d | %-8d | %-10d | %-11d | %-12d | %-15d\n",
-                p.pid, p.arrivalTime, p.burstTime, p.priority, p.startTime, p.finishTime, p.waitingTime, p.turnaroundTime);
+            System.out.printf("%-5d | %-12d | %-10d | %-10d | %-11d | %-12d | %-15d\n",
+                p.pid, p.arrivalTime, p.burstTime, p.startTime, p.finishTime, p.waitingTime, p.turnaroundTime);
         }
         System.out.println("----------------------------------------------------------------------------------------------");
         System.out.printf("Average Waiting Time: %.2f\n", result.averageWaitingTime);

@@ -28,8 +28,8 @@ java -jar target/cpu-1.0-SNAPSHOT.jar
 - [x] FCFS algorithm whether each processes run consecutively
 - [] SJF
 - [] SRT
-- [] RR
-- [] MLFQ
+- [x] RR
+- [x] MLFQ
 
 ## Instructions on how to run each scheduler
 

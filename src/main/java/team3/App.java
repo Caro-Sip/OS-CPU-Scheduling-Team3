@@ -84,14 +84,14 @@ public class App {
      */
     public static void printProcesses(List<Process> processes) {
         System.out.println("\nLoaded Process Details:");
-        System.out.println("---------------------------------------------------------");
-        System.out.printf("%-5s | %-12s | %-10s | %-8s\n", "PID", "Arrival Time", "Burst Time", "Priority");
-        System.out.println("---------------------------------------------------------");
+        System.out.println("---------------------------------------------");
+        System.out.printf("%-5s | %-12s | %-10s\n", "PID", "Arrival Time", "Burst Time");
+        System.out.println("---------------------------------------------");
         for (Process p : processes) {
-            System.out.printf("%-5d | %-12d | %-10d | %-8d\n", 
-                p.pid, p.arrivalTime, p.burstTime, p.priority);
+            System.out.printf("%-5d | %-12d | %-10d\n", 
+                p.pid, p.arrivalTime, p.burstTime);
         }
-        System.out.println("---------------------------------------------------------");
+        System.out.println("---------------------------------------------");
     }
 
 
