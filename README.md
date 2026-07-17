@@ -30,7 +30,7 @@ java -jar target/cpu-1.0-SNAPSHOT.jar
 
 - [x] **First-Come, First-Served (FCFS):** A non-preemptive scheduling algorithm where processes are allocated to the CPU in the exact order of their arrival.
 - [x] **Shortest Job First (SJF):** A non-preemptive scheduling approach that selects the waiting process with the smallest execution time to execute next.
-- [ ] **Shortest Remaining Time (SRT):** A preemptive version of SJF in which the process with the smallest remaining burst time is scheduled next. Context switching occurs if a new process arrives with a shorter burst time.
+- [x] **Shortest Remaining Time (SRT):** A preemptive version of SJF in which the process with the smallest remaining burst time is scheduled next. Context switching occurs if a new process arrives with a shorter burst time.
 - [x] **Round Robin (RR):** A preemptive scheduling algorithm that assigns a configurable fixed time quantum to each process in equal portions and in circular order.
 - [x] **Multilevel Feedback Queue (MLFQ):** A complex scheduling algorithm that utilizes a basic 3-level queue architecture (Queue 1: RR q=2, Queue 2: RR q=4, Queue 3: FCFS). It features built-in promotion/demotion logic and an aging mechanism to prevent process starvation.
 
@@ -70,12 +70,19 @@ Average Turnaround Time: 11.25
 
 ## Screenshots or Gantt Chart Output
 
-The simulation generates a proportional ASCII-based Gantt chart to visualize process execution over time. Below is a representative timeline output for the FCFS scheduling algorithm:
+Below are the actual screenshot outputs from the simulation for each implemented scheduling algorithm:
 
-```text
-Gantt Chart Timeline:
-+----------+------+----------------+------------+
-|    P1    |  P2  |       P3       |     P4     |
-+----------+------+----------------+------------+
-0         5      8               16           22
-```
+### First-Come, First-Served (FCFS)
+![FCFS Output](images/FCFS.png)
+
+### Shortest Job First (SJF)
+![SJF Output](images/SRJ.png)
+
+### Shortest Remaining Time (SRT)
+![SRT Output](images/SRT.png)
+
+### Round Robin (RR)
+![RR Output](images/RR.png)
+
+### Multilevel Feedback Queue (MLFQ)
+![MLFQ Output](images/MLFQ.png)
