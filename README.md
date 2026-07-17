@@ -76,7 +76,7 @@ Below are the actual screenshot outputs from the simulation for each implemented
 ![FCFS Output](images/FCFS.png)
 
 ### Shortest Job First (SJF)
-![SJF Output](images/SRJ.png)
+![SJF Output](images/SJF.png)
 
 ### Shortest Remaining Time (SRT)
 ![SRT Output](images/SRT.png)

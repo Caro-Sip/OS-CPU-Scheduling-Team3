@@ -26,7 +26,7 @@ public enum MenuStates {
     DISPLAY_PROCESSES,
     RUN_FCFS,
     RUN_SRT,
-    RUN_SRJ,
+    RUN_SJF,
     RUN_RR,
     RUN_MLFQ,
     RUN_ALL,
@@ -88,8 +88,8 @@ class Menu {
                 case RUN_SRT:
                     handleRunSRT(scanner);
                     break;
-                case RUN_SRJ:
-                    handleRunSRJ(scanner);
+                case RUN_SJF:
+                    handleRunSJF(scanner);
                     break;
                 case RUN_RR:
                     handleRunRR(scanner);
@@ -297,7 +297,7 @@ class Menu {
                 currentState = MenuStates.RUN_SRT;
                 break;
             case "4":
-                currentState = MenuStates.RUN_SRJ;
+                currentState = MenuStates.RUN_SJF;
                 break;
             case "5":
                 currentState = MenuStates.RUN_RR;
@@ -379,17 +379,17 @@ class Menu {
         currentState = MenuStates.MAIN_MENU;
     }
 
-    private void handleRunSRJ(Scanner scanner) {
-        System.out.println("\nExecuting SRJ (Shortest Remaining Job) Scheduling...");
+    private void handleRunSJF(Scanner scanner) {
+        System.out.println("\nExecuting SJF (Shortest Job First) Scheduling...");
         if (currentProcesses != null) {
             try {
                 team3.interfaces.Scheduler sjf = new team3.algorithms.SJF();
                 CPUSimulator simulator = new CPUSimulator();
                 SimulationResult result = simulator.run(currentProcesses, sjf);
                 ResultPrinter.print(result);
-                sessionResults.put("SRJ (SJF)", result);
+                sessionResults.put("SJF", result);
             } catch (Exception e) {
-                System.out.println("Error running SRJ simulation: " + e.getMessage());
+                System.out.println("Error running SJF simulation: " + e.getMessage());
             }
             System.out.println("\nPress [Enter] to return to the Main Menu...");
             scanner.nextLine();
@@ -513,15 +513,15 @@ class Menu {
                 System.out.println(" - SRT: Failed (" + e.getMessage() + ")");
             }
 
-            // 3. SRJ (Shortest Remaining Job)
+            // 3. SJF (Shortest Job First)
             try {
                 team3.interfaces.Scheduler sjf = new team3.algorithms.SJF();
                 CPUSimulator simulator = new CPUSimulator();
                 SimulationResult result = simulator.run(currentProcesses, sjf);
-                sessionResults.put("SRJ (SJF)", result);
-                System.out.println(" - SRJ: Completed successfully");
+                sessionResults.put("SJF", result);
+                System.out.println(" - SJF: Completed successfully");
             } catch (Exception e) {
-                System.out.println(" - SRJ: Failed (" + e.getMessage() + ")");
+                System.out.println(" - SJF: Failed (" + e.getMessage() + ")");
             }
 
             // 4. RR (Round Robin)
@@ -656,7 +656,7 @@ class Menu {
         System.out.println("1. Display the Process List");
         System.out.println("2. FCFS (First Come First Served)");
         System.out.println("3. SRT (Shortest Remaining Time)");
-        System.out.println("4. SRJ (Shortest Remaining Job)");
+        System.out.println("4. SJF (Shortest Job First)");
         System.out.println("5. RR (Round Robin)");
         System.out.println("6. MLFQ (Multi-Level Feedback Queue)");
         System.out.println("7. Run All Algorithms");
