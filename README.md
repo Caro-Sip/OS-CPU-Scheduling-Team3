@@ -26,7 +26,7 @@ java -jar target/cpu-1.0-SNAPSHOT.jar
 ## Description of algorithms implemented
 
 - [x] FCFS algorithm whether each processes run consecutively
-- [] SJF
+- [x] SJF
 - [] SRT
 - [x] RR
 - [x] MLFQ

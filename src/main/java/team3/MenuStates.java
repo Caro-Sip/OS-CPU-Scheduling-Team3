@@ -368,10 +368,23 @@ class Menu {
 
     private void handleRunSRJ(Scanner scanner) {
         System.out.println("\nExecuting SRJ (Shortest Remaining Job) Scheduling...");
-        // Stub for SRJ
-        System.out.println("[SRJ Scheduling logic not yet connected]");
-        System.out.println("\nPress [Enter] to return to the Main Menu...");
-        scanner.nextLine();
+        if (currentProcesses != null) {
+            try {
+                team3.interfaces.Scheduler sjf = new team3.algorithms.SJF();
+                CPUSimulator simulator = new CPUSimulator();
+                SimulationResult result = simulator.run(currentProcesses, sjf);
+                ResultPrinter.print(result);
+                sessionResults.put("SRJ (SJF)", result);
+            } catch (Exception e) {
+                System.out.println("Error running SRJ simulation: " + e.getMessage());
+            }
+            System.out.println("\nPress [Enter] to return to the Main Menu...");
+            scanner.nextLine();
+        } else {
+            System.out.println("No processes loaded yet. Please configure processes first.");
+            currentState = MenuStates.PROCESS_EDIT_MENU;
+            return;
+        }
         currentState = MenuStates.MAIN_MENU;
     }
 
@@ -418,7 +431,7 @@ class Menu {
 
             int[] quantums = new int[numLevels];
             for (int i = 0; i < numLevels; i++) {
-                int defaultQ = (i == numLevels - 1) ? 0 : (int) Math.pow(2, i + 2); // 4, 8, etc. Last is FCFS (0)
+                int defaultQ = (i == numLevels - 1) ? 0 : (int) Math.pow(2, i + 1); // 2, 4, etc. Last is FCFS (0)
                 System.out.print("Enter quantum for level " + i + " (default " + defaultQ + ", 0 for FCFS): ");
                 String qInput = scanner.nextLine().trim();
                 int q = defaultQ;
@@ -479,12 +492,20 @@ class Menu {
             // 2. SRT (Shortest Remaining Time) - stub
             System.out.println(" - SRT: Not yet implemented");
 
-            // 3. SRJ (Shortest Remaining Job) - stub
-            System.out.println(" - SRJ: Not yet implemented");
+            // 3. SRJ (Shortest Remaining Job)
+            try {
+                team3.interfaces.Scheduler sjf = new team3.algorithms.SJF();
+                CPUSimulator simulator = new CPUSimulator();
+                SimulationResult result = simulator.run(currentProcesses, sjf);
+                sessionResults.put("SRJ (SJF)", result);
+                System.out.println(" - SRJ: Completed successfully");
+            } catch (Exception e) {
+                System.out.println(" - SRJ: Failed (" + e.getMessage() + ")");
+            }
 
             // 4. RR (Round Robin)
             try {
-                int quantum = getQuantumInput(scanner, 2);
+                int quantum = 2; // default quantum for Run All comparison
                 team3.interfaces.Scheduler rr = new team3.algorithms.RR(quantum);
                 CPUSimulator simulator = new CPUSimulator();
                 SimulationResult result = simulator.run(currentProcesses, rr);
@@ -496,11 +517,11 @@ class Menu {
 
             // 5. MLFQ (Multi-Level Feedback Queue)
             try {
-                int[] quantums = new int[]{4, 8, 0}; // default [4, 8, FCFS]
+                int[] quantums = new int[]{2, 4, 0}; // default [2, 4, FCFS]
                 team3.interfaces.Scheduler mlfq = new team3.algorithms.MLFQ(quantums);
                 CPUSimulator simulator = new CPUSimulator();
                 SimulationResult result = simulator.run(currentProcesses, mlfq);
-                sessionResults.put("MLFQ (q=[4,8,0])", result);
+                sessionResults.put("MLFQ (q=[2,4,0])", result);
                 System.out.println(" - MLFQ: Completed successfully");
             } catch (Exception e) {
                 System.out.println(" - MLFQ: Failed (" + e.getMessage() + ")");
